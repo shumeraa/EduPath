@@ -1,6 +1,5 @@
 import requests
 import json
-import pickle
 
 all_data = []
 all_data.append("[{\"COURSES\":")
