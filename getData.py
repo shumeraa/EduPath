@@ -2,7 +2,7 @@ import requests
 import json
 
 all_data = []
-all_data.append("[{\"COURSES\":")
+#all_data.append("[{\"COURSES\":")
 session = requests.Session()
 break_flag = False
 last_row = 0
@@ -15,7 +15,7 @@ while True:
     courses = data[0]['COURSES']
     for course in courses:
         code = course.get('code', '0000')
-        if code == '0000' or last_row > 300:
+        if code == '0000':
             break_flag = True
             break
         print(course)
@@ -26,7 +26,7 @@ while True:
     print(len(all_data))
 
 
-all_data.append("}]")
+#all_data.append("}]")
 with open('all_data.json', 'w') as f:
     json.dump(all_data, f)
 
