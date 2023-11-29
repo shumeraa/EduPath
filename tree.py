@@ -40,3 +40,7 @@ class classTree:
                 return None  # Class code not found
             node = node.get_child(char)
         return node.vector if node.is_end else None  # Return the vector if this is the end of a class code
+
+        #hello this is meg
+        #random temp test
+        
