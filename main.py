@@ -12,11 +12,20 @@ for course in all_Courses:
     code = course.get('code')
     name = course.get('name')
     prerequisites = course.get('prerequisites')
-    preReqs = re.findall(r'[A-Z]{3} \d{4}[A-Z]?', prerequisites)
-    preReqs = [code.replace(" ", "") for code in preReqs]
+
+
+    if "AP credit for" not in prerequisites:
+        preReqs = re.findall(r'[A-Z]{3} \d{4}[A-Z]?', prerequisites)
+        preReqs = [code.replace(" ", "") for code in preReqs]
+    
+
+    # if re.search(r'\b(AP|IBA)\b', prerequisites):
+
     tree_obj.insert(code, preReqs)
-    # print(class_codes)
+    # print(preReqs)
     # print(prerequisites)
+        
+
 
 
 
@@ -37,8 +46,28 @@ def print_prerequisites(course, level=0):
         if prereq is not None:
             print_prerequisites(prereq, level + 1)
 
-print_prerequisites('COP3530')
+prereq_tree = Tree()
+def add_prerequisites_to_tree(course, parent=None):
+    prereqs = tree_obj.get_vector(course)
+    
+    # Add the course as a node to the tree. If it has a parent, specify it.
+    if not prereq_tree.contains(course):
+        prereq_tree.create_node(course, course, parent=parent)
+    
+    # If there are no prerequisites, return as there's nothing to add to the tree
+    if not prereqs or prereqs == [None]:
+        return
+    
+    # Iterate through the prerequisites and recursively add them to the tree
+    for prereq in prereqs:
+        if prereq is not None:
+            # Recursively add the current prerequisite as a child of the course
+            add_prerequisites_to_tree(prereq, course)
 
+
+print_prerequisites('COP3530')
+add_prerequisites_to_tree('COP3530')
+prereq_tree.show()
 #Mac2311 pre-req is MAc2311???
 
 
