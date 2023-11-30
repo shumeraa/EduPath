@@ -1,6 +1,7 @@
 import json
 import tree
 import re
+from treelib import Node, Tree
 
 with open('all_data.json', 'r') as f:
     all_Courses = json.load(f)
@@ -8,29 +9,35 @@ with open('all_data.json', 'r') as f:
 tree_obj = tree.classTree()
 
 for course in all_Courses:
-
     code = course.get('code')
     name = course.get('name')
     prerequisites = course.get('prerequisites')
-    #class_codes = re.findall(r'[A-Z]{3} \d{4}', prerequisites)
-    # class_codes = re.findall(r'[A-Z]{3} \d{4}[A-Z]?', prerequisites)
-    # class_codes = [code.replace(" ", "") for code in class_codes]
+    preReqs = re.findall(r'[A-Z]{3} \d{4}[A-Z]?', prerequisites)
+    preReqs = [code.replace(" ", "") for code in preReqs]
+    tree_obj.insert(code, preReqs)
+    # print(class_codes)
+    # print(prerequisites)
 
-    class_count = len([code for code in class_codes if re.match(r'[A-Z]{3}\d{4}[A-Z]?', code)])
-    if class_count > 1:
-        class_codes = re.findall(r'[A-Z]{3} \d{4}[A-Z]?|,|and|or|\(|\)', prerequisites)
-        class_codes = [code.replace(" ", "") if re.match(r'[A-Z]{3}\d{4}[A-Z]?', code) else code for code in class_codes]
-    else:
-        class_codes = re.findall(r'[A-Z]{3} \d{4}[A-Z]?', prerequisites)
-        class_codes = [code.replace(" ", "") for code in class_codes]
-        print(class_codes)
 
+
+def print_prerequisites(course, level=0):
+    indent = "  " * level
+    prereqs = tree_obj.get_vector(course)
+
+    # Check if the prerequisites list is empty or contains 'None'
+    if not prereqs or prereqs == [None]:
+        print(f"{indent}No prerequisites for {course}")
+        return
     
-    print(class_codes)
-    print(prerequisites)
+    print(f"{indent}Prerequisites for {course}: {prereqs}")
 
-    tree_obj.insert(code, prerequisites)
+    # Iterate through the prerequisites
+    for prereq in prereqs:
+        # If the prerequisite is not 'None', recursively print its prerequisites
+        if prereq is not None:
+            print_prerequisites(prereq, level + 1)
 
+print_prerequisites('COP3530')
 
 
 
@@ -41,9 +48,6 @@ for course in all_Courses:
 #     vector = tree_obj.get_vector(code)
 #     print(vector)
 
-# tree_obj.insert("EEC6905", ['Prereq: ADV 3008 and MAR 3023 with minimum grades of C and Advertising major of junior standing or higher.'])  # Insert a class code with its corresponding vector
-# vector = tree_obj.get_vector("EEC6905")  # Retrieve the vector for a given class code
-# print(vector)
 
 
 
