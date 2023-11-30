@@ -39,7 +39,7 @@ def print_prerequisites(course, level=0):
 
 print_prerequisites('COP3530')
 
-
+#Mac2311 pre-req is MAc2311???
 
 
 
