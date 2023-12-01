@@ -47,6 +47,7 @@ def print_prerequisites(course, level=0):
             print_prerequisites(prereq, level + 1)
 
 prereq_tree = Tree()
+
 def add_prerequisites_to_tree(course, parent=None):
     prereqs = tree_obj.get_vector(course)
     
@@ -65,10 +66,19 @@ def add_prerequisites_to_tree(course, parent=None):
             add_prerequisites_to_tree(prereq, course)
 
 
-print_prerequisites('COP3530')
+
+
+
 add_prerequisites_to_tree('COP3530')
 prereq_tree.show()
-#Mac2311 pre-req is MAc2311???
+# print(tree_obj.get_vector('COP3530'))
+# print(tree_obj.get_vector('COT3100'))
+# print(tree_obj.get_vector('MAC2234'))
+# print(tree_obj.get_vector('MAC2312'))
+# print(tree_obj.get_vector('MAC2512'))
+# print(tree_obj.get_vector('MAC3473'))
+
+
 
 
 
