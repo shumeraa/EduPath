@@ -21,7 +21,7 @@ tree_obj.insert("EEC6905", ['Prereq: ADV 3008 and MAR 3023 with minimum grades o
 vector = tree_obj.get_vector("EEC6905")  # Retrieve the vector for a given class code
 print(vector)
 
-
+# joseph tst comment
 
 
 count = 0
