@@ -2,6 +2,10 @@ import json
 import tree
 import re
 from treelib import Node, Tree
+import networkx as nx
+from networkx.drawing.nx_agraph import to_agraph
+import matplotlib.pyplot as plt
+
 
 with open('all_data.json', 'r') as f:
     all_Courses = json.load(f)
@@ -46,31 +50,34 @@ def print_prerequisites(course, level=0):
         if prereq is not None:
             print_prerequisites(prereq, level + 1)
 
-prereq_tree = Tree()
 
-def add_prerequisites_to_tree(course, parent=None):
+def displayPreReqGraph(course, G=None, parent=None):
+    if G is None:
+        G = nx.DiGraph()
+
     prereqs = tree_obj.get_vector(course)
     
-    # Add the course as a node to the tree. If it has a parent, specify it.
-    if not prereq_tree.contains(course):
-        prereq_tree.create_node(course, course, parent=parent)
+    # Add the course as a node to the graph. If it has a parent, add an edge.
+    if course not in G:
+        G.add_node(course)
+    if parent is not None:
+        G.add_edge(parent, course)
     
-    # If there are no prerequisites, return as there's nothing to add to the tree
     if not prereqs or prereqs == [None]:
-        return
+        return G
     
-    # Iterate through the prerequisites and recursively add them to the tree
     for prereq in prereqs:
         if prereq is not None:
-            # Recursively add the current prerequisite as a child of the course
-            add_prerequisites_to_tree(prereq, course)
+            # Recursively add the current prerequisite as a node and connect it
+            displayPreReqGraph(prereq, G, course)
+
+    return G
+
+tree_obj.displayPreReqGraph("STA4321", draw=True)
 
 
 
 
-
-add_prerequisites_to_tree('COP3530')
-prereq_tree.show()
 # print(tree_obj.get_vector('COP3530'))
 # print(tree_obj.get_vector('COT3100'))
 # print(tree_obj.get_vector('MAC2234'))

@@ -1,3 +1,5 @@
+import networkx as nx
+import matplotlib.pyplot as plt
 class classNode:
     def __init__(self):
         self.children = [None] * 26  # A node can have up to 26 children (one for each letter)
@@ -40,3 +42,39 @@ class classTree:
                 return None  # Class code not found
             node = node.get_child(char)
         return node.vector if node.is_end else None  # Return the vector if this is the end of a class code
+    
+    def displayPreReqGraph(self, course, G=None, parent=None, draw=False):
+        if G is None:
+            G = nx.DiGraph()
+
+        prereqs = self.get_vector(course)
+
+        # Add the course as a node to the graph. If it has a parent, add an edge.
+        if course not in G:
+            G.add_node(course)
+        if parent is not None:
+            G.add_edge(parent, course)
+
+        if not prereqs or prereqs == [None]:
+            if draw:
+                self.draw_graph(G)
+            return G
+
+        for prereq in prereqs:
+            if prereq is not None:
+                # Recursively add the current prerequisite as a node and connect it
+                self.displayPreReqGraph(prereq, G, course)
+
+        if draw:
+            self.draw_graph(G)
+
+        return G
+
+    def draw_graph(self, G):
+        plt.figure(figsize=(10, 8))
+        pos = nx.spring_layout(G)  # or any other layout you prefer
+        nx.draw(G, pos, with_labels=True, node_color='lightgreen', edge_color='black', node_size=2000, font_size=10)
+        plt.title("Course Prerequisite Graph")
+        plt.show()
+    
+    
