@@ -1,5 +1,6 @@
 import networkx as nx
 import matplotlib.pyplot as plt
+import time
 class classNode:
     def __init__(self):
         self.children = [None] * 26  # A node can have up to 26 children (one for each letter)
@@ -45,6 +46,7 @@ class classTree:
     
     def displayPreReqGraph(self, course, G=None, parent=None, draw=False):
         if G is None:
+            start_time = time.time()
             G = nx.DiGraph()
 
         prereqs = self.get_vector(course)
@@ -57,6 +59,8 @@ class classTree:
 
         if not prereqs or prereqs == [None]:
             if draw:
+                end_time = time.time()
+                print(end_time - start_time)
                 self.draw_graph(G)
             return G
 
@@ -66,6 +70,8 @@ class classTree:
                 self.displayPreReqGraph(prereq, G, course)
 
         if draw:
+            end_time = time.time()
+            print(end_time - start_time)
             self.draw_graph(G)
 
         return G
