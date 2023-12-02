@@ -66,10 +66,19 @@ class HashMap:
                 self.count -= 1
                 return
             
-        
+    # def timed_displayPreReqGraph(self, course, G=None, parent=None, draw=False):
+    #     start_time = time.perf_counter()
+
+    #     result = self.displayPreReqGraph(course, G, parent, draw)
+
+    #     end_time = time.perf_counter()
+    #     print(f"Total time taken: {end_time - start_time} seconds")
+
+    #     return result
+    
     def displayPreReqGraph(self, course, G=None, parent=None, draw=False,):
         if G is None:
-            start_time = time.time()
+            start_time = time.perf_counter()
             G = nx.DiGraph()            
 
         prereqs = self.get_prereqs(course)
@@ -82,8 +91,8 @@ class HashMap:
 
         if not prereqs or prereqs == [None]:
             if draw:
-                end_time = time.time()
-                print(end_time - start_time)
+                end_time = time.perf_counter()
+                print(f"map is {end_time - start_time}")
                 self.draw_graph(G)
             return G
 
@@ -93,8 +102,8 @@ class HashMap:
                 self.displayPreReqGraph(prereq, G, course)
 
         if draw:
-            end_time = time.time()
-            print(end_time - start_time)
+            end_time = time.perf_counter()
+            print(f"map is {end_time - start_time}")
             self.draw_graph(G)
         
         return G

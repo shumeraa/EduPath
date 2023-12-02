@@ -5,6 +5,7 @@ import map as hashMap
 import time
 
 
+
 with open('all_data.json', 'r') as f:
     all_Courses = json.load(f)
 
@@ -27,32 +28,56 @@ for course in all_Courses:
 
 
 #main function
-def print_prerequisites(course, level=0):
+def print_prerequisites_tree(course, level=0):
     indent = "  " * level
     prereqs = tree_obj.get_vector(course)
 
     # Check if the prerequisites list is empty or contains 'None'
     if not prereqs or prereqs == [None]:
-        print(f"{indent}No prerequisites for {course}")
+        #print(f"{indent}No prerequisites for {course}")
         return
     
-    print(f"{indent}Prerequisites for {course}: {prereqs}")
+    #print(f"{indent}Prerequisites for {course}: {prereqs}")
 
     # Iterate through the prerequisites
     for prereq in prereqs:
         # If the prerequisite is not 'None', recursively print its prerequisites
         if prereq is not None:
-            print_prerequisites(prereq, level + 1)
+            print_prerequisites_tree(prereq, level + 1)
+
+def print_prerequisites_map(course, level=0):
+    indent = "  " * level
+    prereqs = map_obj.get_prereqs(course)
+
+    # Check if the prerequisites list is empty or contains 'None'
+    if not prereqs or prereqs == [None]:
+        #print(f"{indent}No prerequisites for {course}")
+        return
+    
+    #print(f"{indent}Prerequisites for {course}: {prereqs}")
+
+    # Iterate through the prerequisites
+    for prereq in prereqs:
+        # If the prerequisite is not 'None', recursively print its prerequisites
+        if prereq is not None:
+            print_prerequisites_map(prereq, level + 1)
 
 
-#print_prerequisites("COP3530")
+# treeStartTime = time.perf_counter()
+# print_prerequisites_tree("COP3530")
+# treeEndTime = time.perf_counter()
+# print(f"tree is {treeEndTime - treeStartTime}")
+
+# mapStartTime = time.perf_counter()
+# print_prerequisites_map("COP3530")
+# mapEndTime = time.perf_counter()
+# print(f"map is {mapEndTime - mapStartTime}")
+
+# print((treeEndTime - treeStartTime) > (mapEndTime - mapStartTime))
+
 tree_obj.displayPreReqGraph("COP3530", draw=True)
-
-
-# start_time = time.time()
 map_obj.displayPreReqGraph("COP3530", draw=True)
-# end_time = time.time()
-# print(f"map time: {end_time - start_time} seconds")
+
 
 
 
