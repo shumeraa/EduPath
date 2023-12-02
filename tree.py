@@ -32,6 +32,7 @@ class classTree:
                 node.add_child(char)
             node = node.get_child(char)
         node.set_vector(vector)  # Set the vector at the final node
+        print(f"Inserted {class_code} with prerequisites {vector}")
 
     def get_vector(self, class_code):
         node = self.root
@@ -41,6 +42,5 @@ class classTree:
             node = node.get_child(char)
         return node.vector if node.is_end else None  # Return the vector if this is the end of a class code
 
-        #hello this is meg
-        #random temp test
+    
         
