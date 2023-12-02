@@ -1,3 +1,5 @@
+# import networkx as nx
+
 class HashMap:
 
     # adding class to the map:
@@ -65,18 +67,4 @@ class HashMap:
 
 
 
-# Example usage:
-myMap = HashMap()
-myMap.insert("courseCode1", ["value1", "value2", "value3"])
-myMap.insert("courseCode2", ["value4", "value5"])
-myMap.insert("courseCode3", ["value6"])
-myMap.insert("org", ["prereq", "prereq2"])
-myMap.insert("dsa", ["prereq", "prereq2"])
-myMap.insert("cop", ["prereq", "prereq2"])
-myMap.insert("abc", ["prereq99", "prereq2"])
-myMap.insert("a", ["prereq", "prereq2"])
 
-print(myMap.count)
-print(myMap.capacity)
-
-print(myMap.get_prereqs("abc"))
