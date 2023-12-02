@@ -35,8 +35,13 @@ class HashMap:
         bucket = self.buckets[index]
 
         # append new courseCode-value pair
-        bucket.append((courseCode, vector))
-        self.count += 1
+        isrepeat = False
+        for old_courseCode, vector in bucket:
+            if old_courseCode == courseCode:
+                isrepeat = True
+        if not isrepeat:
+            bucket.append((courseCode, vector))
+            self.count += 1
 
         # Check load factor and rehash if necessary
         load_factor = self.count / self.capacity

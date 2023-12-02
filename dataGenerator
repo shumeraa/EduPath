@@ -1,0 +1,49 @@
+import json
+import random
+import string
+import main
+
+def generate_course_code():
+    letters = ''.join(random.choices(string.ascii_uppercase, k=3))
+    numbers = ''.join(random.choices(string.digits, k=4))
+    return letters + numbers
+
+def generate_prerequisites(num_prereqs=3):
+    prerequisites = []
+    for i in range(num_prereqs):
+        prerequisites.append(generate_course_code())
+    return prerequisites
+
+def create_additional_courses(num_courses=90000):
+    new_courses = []
+    for j in range(num_courses):
+        course_code = generate_course_code()
+        prereqs = generate_prerequisites(random.randint(0, 5)) 
+        new_courses.append({"code": course_code, "prerequisites": prereqs})
+    return new_courses 
+
+def create_additional_courses_up_to_limit(num_courses=90000, limit=100000):
+    with open('all_data.json', 'r') as file:
+        existing_courses = json.load(file)
+
+    current_course_count = len(existing_courses)
+    if current_course_count >= limit:
+        print(f"The dataset already has {current_course_count} courses.")
+        return existing_courses
+
+    courses_to_add = limit - current_course_count
+    print(f"Adding {courses_to_add} courses to reach the limit of {limit}.")
+
+    new_courses = create_additional_courses(courses_to_add)
+
+    all_courses = existing_courses + new_courses
+
+    with open('all_data.json', 'w') as file:
+        json.dump(all_courses, file, indent=4)
+
+    return all_courses
+
+all_courses = create_additional_courses_up_to_limit()
+
+
+print(f"Total courses in the updated dataset: {len(all_courses)}")

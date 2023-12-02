@@ -16,12 +16,13 @@ for course in all_Courses:
     code = course.get('code')
     name = course.get('name')
     prerequisites = course.get('prerequisites')        
-
+    print(prerequisites)
     preReqs = re.findall(r'[A-Z]{3} \d{4}[A-Z]?', prerequisites)
     preReqs = [prereq.replace(" ", "") for prereq in preReqs if prereq.replace(" ", "") != code]
 
     tree_obj.insert(code, preReqs)
     map_obj.insert(code, preReqs)
+    #print(code)
     
         
 
@@ -76,7 +77,8 @@ def print_prerequisites_map(course, level=0):
 # print((treeEndTime - treeStartTime) > (mapEndTime - mapStartTime))
 
 tree_obj.displayPreReqGraph("COP3530", draw=True)
-map_obj.displayPreReqGraph("COP3530", draw=True)
+
+map_obj.displayPreReqGraph("VME7980", draw=True)
 
 
 
