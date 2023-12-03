@@ -103,7 +103,7 @@ def update_course_data(limit=100000):
         print("Already have enough courses")
 
     with open('updated_courses_data.json', 'w') as file:
-        json.dump(all_courses, file, indent=4)
+        json.dump(new_courses_with_prereqs, file, indent=4)
 
     print(f"Total courses after update: {len(all_courses)}")
 
