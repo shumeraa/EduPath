@@ -35,13 +35,8 @@ class HashMap:
         bucket = self.buckets[index]
 
         # append new courseCode-value pair
-        isrepeat = False
-        for old_courseCode, vector in bucket:
-            if old_courseCode == courseCode:
-                isrepeat = True
-        if not isrepeat:
-            bucket.append((courseCode, vector))
-            self.count += 1
+        bucket.append((courseCode, vector))
+        self.count += 1
 
         # Check load factor and rehash if necessary
         load_factor = self.count / self.capacity
@@ -70,21 +65,16 @@ class HashMap:
                 del bucket[i]
                 self.count -= 1
                 return
-            
-    # def timed_displayPreReqGraph(self, course, G=None, parent=None, draw=False):
-    #     start_time = time.perf_counter()
-
-    #     result = self.displayPreReqGraph(course, G, parent, draw)
-
-    #     end_time = time.perf_counter()
-    #     print(f"Total time taken: {end_time - start_time} seconds")
-
-    #     return result
     
-    def displayPreReqGraph(self, course, G=None, parent=None, draw=False,):
+    def displayPreReqGraph(self, course, G=None, parent=None, draw=False, visited=None):
         if G is None:
-            start_time = time.perf_counter()
-            G = nx.DiGraph()            
+            G = nx.DiGraph()
+            visited = set()
+
+        # Avoid circular dependencies
+        if course in visited:
+            return G
+        visited.add(course)
 
         prereqs = self.get_prereqs(course)
 
@@ -95,27 +85,29 @@ class HashMap:
             G.add_edge(parent, course)
 
         if not prereqs or prereqs == [None]:
-            if draw:
-                end_time = time.perf_counter()
-                print(f"map is {end_time - start_time}")
-                self.draw_graph(G)
             return G
 
         for prereq in prereqs:
             if prereq is not None:
-                # Recursively add the current prerequisite as a node and connect it
-                self.displayPreReqGraph(prereq, G, course)
+                self.displayPreReqGraph(prereq, G, course, draw=False, visited=visited)
 
         if draw:
-            end_time = time.perf_counter()
-            print(f"map is {end_time - start_time}")
-            self.draw_graph(G)
-        
+            # Add drawing logic here if needed
+            pass
+
         return G
         
     def draw_graph(self, G):
         plt.figure(figsize=(10, 8))
         pos = nx.spring_layout(G)  # or any other layout you prefer
         nx.draw(G, pos, with_labels=True, node_color='lightgreen', edge_color='black', node_size=2000, font_size=10)
-        plt.title("Course Prerequisite Graph")
+        plt.title("Map Prerequisite Graph")
         plt.show()
+
+    def getTimeAndGraph(self, course):
+        start_time = time.perf_counter()
+        graph = self.displayPreReqGraph(course, None, draw=True)
+        end_time = time.perf_counter()
+        totalTime = end_time - start_time
+        self.draw_graph(graph)
+        print(totalTime)

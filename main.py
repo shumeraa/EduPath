@@ -16,7 +16,6 @@ for course in all_Courses:
     code = course.get('code')
     name = course.get('name')
     prerequisites = course.get('prerequisites')        
-    print(prerequisites)
     preReqs = re.findall(r'[A-Z]{3} \d{4}[A-Z]?', prerequisites)
     preReqs = [prereq.replace(" ", "") for prereq in preReqs if prereq.replace(" ", "") != code]
 
@@ -31,7 +30,7 @@ for course in all_Courses:
 #main function
 def print_prerequisites_tree(course, level=0):
     indent = "  " * level
-    prereqs = tree_obj.get_vector(course)
+    prereqs = tree_obj.get_prereqs(course)
 
     # Check if the prerequisites list is empty or contains 'None'
     if not prereqs or prereqs == [None]:
@@ -76,9 +75,10 @@ def print_prerequisites_map(course, level=0):
 
 # print((treeEndTime - treeStartTime) > (mapEndTime - mapStartTime))
 
-tree_obj.displayPreReqGraph("COP3530", draw=True)
+#tree_obj.displayPreReqGraph("COP3530", draw=True)
 
-map_obj.displayPreReqGraph("VME7980", draw=True)
+map_obj.getTimeAndGraph("COP3530")
+tree_obj.getTimeAndGraph("COP3530")
 
 
 

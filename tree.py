@@ -36,7 +36,7 @@ class classTree:
             node = node.get_child(char)
         node.set_vector(vector)  # Set the vector at the final node
 
-    def get_vector(self, class_code):
+    def get_prereqs(self, class_code):
         node = self.root
         for char in class_code:
             if not node.has_child(char):
@@ -44,12 +44,17 @@ class classTree:
             node = node.get_child(char)
         return node.vector if node.is_end else None  # Return the vector if this is the end of a class code
     
-    def displayPreReqGraph(self, course, G=None, parent=None, draw=False):
+    def displayPreReqGraph(self, course, G=None, parent=None, draw=False, visited=None):
         if G is None:
-            start_time = time.perf_counter()
             G = nx.DiGraph()
+            visited = set()
 
-        prereqs = self.get_vector(course)
+        # Avoid circular dependencies
+        if course in visited:
+            return G
+        visited.add(course)
+
+        prereqs = self.get_prereqs(course)
 
         # Add the course as a node to the graph. If it has a parent, add an edge.
         if course not in G:
@@ -58,29 +63,29 @@ class classTree:
             G.add_edge(parent, course)
 
         if not prereqs or prereqs == [None]:
-            if draw:
-                end_time = time.perf_counter()
-                print(f"tree is {end_time - start_time}")
-                self.draw_graph(G)
             return G
 
         for prereq in prereqs:
             if prereq is not None:
-                # Recursively add the current prerequisite as a node and connect it
-                self.displayPreReqGraph(prereq, G, course)
+                self.displayPreReqGraph(prereq, G, course, draw=False, visited=visited)
 
         if draw:
-            end_time = time.perf_counter()
-            print(f"tree is {end_time - start_time}")
-            self.draw_graph(G)
+            # Add drawing logic here if needed
+            pass
 
         return G
-
+        
     def draw_graph(self, G):
         plt.figure(figsize=(10, 8))
         pos = nx.spring_layout(G)  # or any other layout you prefer
         nx.draw(G, pos, with_labels=True, node_color='lightgreen', edge_color='black', node_size=2000, font_size=10)
-        plt.title("Course Prerequisite Graph")
+        plt.title("Tree Prerequisite Graph")
         plt.show()
-    
-    
+
+    def getTimeAndGraph(self, course):
+        start_time = time.perf_counter()
+        graph = self.displayPreReqGraph(course, None, draw=True)
+        end_time = time.perf_counter()
+        totalTime = end_time - start_time
+        self.draw_graph(graph)
+        print(totalTime)
