@@ -33,6 +33,10 @@ class HashMap:
         index = self.hash_function(courseCode)
         bucket = self.buckets[index]
 
+        for old_courseCode, vector in bucket:
+            if old_courseCode == courseCode:
+                return 
+            
         # append new courseCode-value pair
         bucket.append((courseCode, vector))
         self.count += 1
@@ -66,5 +70,13 @@ class HashMap:
                 return
 
 
+custom_map = HashMap()
+custom_map.insert("key1", ["value1", "value2", "value3"])
+custom_map.insert("key2", ["value4", "value5"])
+custom_map.insert("key2", ["value9", "value9"])
+
+custom_map.insert("key3", ["value6"])
+
+print(custom_map.get_prereqs("key2"))  
 
 
