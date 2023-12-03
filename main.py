@@ -16,9 +16,12 @@ def main():
     if getData.is_file_empty("all_data.json"):
         print("Getting data from UF API...")
         getData.getUfData()
-    # DO THIS FOR RANDOMLY GENERATED DATA
+    if getData.is_file_empty("randomlyGeneratedCourses.json"):
+        print("Randomly Generating Data...")
+        getData.generateRandomData()
 
     getData.populateUfData(tree_obj, map_obj)
+    getData.populateRandomData(tree_obj, map_obj)
 
     firstRun = True
     while True:

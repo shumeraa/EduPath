@@ -57,3 +57,59 @@ def is_file_empty(file_path):
 
 def getRandomClass():
     return random.choice(classesWithPrereqs)
+
+def generate_course_code():
+    letters = ''.join(random.choices(string.ascii_uppercase, k=3))
+    numbers = ''.join(random.choices(string.digits, k=4))
+    return letters + numbers
+
+def create_additional_courses(num_courses=100000):
+    # create each course, generating a unique code, and adding the course with no pre-requisites
+    new_courses = []
+    for i in range(num_courses): 
+        course_code = generate_course_code()  
+        new_courses.append({"code": course_code, "prerequisites": []})  
+    return new_courses
+
+def assign_prerequisites(courses):
+    # selecting a 1/3 of the courses randomly, getting the other 2/3s of the courses 
+    # randomly selecting those pre-reqs 
+    # and then setting the pre-rqs to each course
+    third_courses = random.sample(courses, len(courses) // 3) 
+    other_courses = [course for course in courses if course not in third_courses]  
+
+    for course in third_courses:
+        num_prereqs = random.randint(0, 3)  
+        prereqs = random.sample(other_courses, num_prereqs) 
+        course['prerequisites'] = [prereq['code'] for prereq in prereqs if prereq['code'] != course['code']]
+
+    return courses
+
+def generateRandomData(limit=100000):
+    all_courses = []
+    new_courses = create_additional_courses()
+        
+        # Assign prerequisites only to the new courses
+    new_courses_with_prereqs = assign_prerequisites(new_courses)
+
+        # Combine with existing courses
+    all_courses.extend(new_courses_with_prereqs)
+
+    with open('randomlyGeneratedCourses.json', 'w') as file:
+        json.dump(all_courses, file, indent=4)
+
+    print(f"Total courses after update: {len(all_courses)}")
+
+def populateRandomData(tree_obj, map_obj):
+    with open('randomlyGeneratedCourses.json', 'r') as f:
+        all_Courses = json.load(f)
+
+    for course in all_Courses:
+        code = course.get('code')
+        prerequisites = course.get('prerequisites')        
+
+        if prerequisites and code not in classesWithPrereqs:
+            classesWithPrereqs.append(code)
+        
+        tree_obj.insert(code, prerequisites)
+        map_obj.insert(code, prerequisites)
