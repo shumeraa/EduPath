@@ -110,4 +110,4 @@ class HashMap:
         end_time = time.perf_counter()
         totalTime = end_time - start_time
         self.draw_graph(graph)
-        print(totalTime)
+        print(f"The map took {totalTime / 10:.3e} decaseconds to get all prerequisites.")

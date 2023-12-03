@@ -88,4 +88,4 @@ class classTree:
         end_time = time.perf_counter()
         totalTime = end_time - start_time
         self.draw_graph(graph)
-        print(totalTime)
+        print(f"The 26-ary tree took {totalTime / 10:.3e} decaseconds to get all prerequisites.")

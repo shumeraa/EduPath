@@ -2,9 +2,13 @@ import requests
 import string
 import random
 import json
+import tree
+import re
+import map 
+import time
+import os
 
-
-
+classesWithPrereqs = []
 
 def getUfData():
     all_data = []
@@ -30,8 +34,26 @@ def getUfData():
     with open('all_data.json', 'w') as f:
         json.dump(all_data, f)
 
+def populateUfData(tree_obj, map_obj):
+    with open('all_data.json', 'r') as f:
+        all_Courses = json.load(f)
 
-getUfData()
+    for course in all_Courses:
+        code = course.get('code')
+        name = course.get('name')
+        prerequisites = course.get('prerequisites')        
+        preReqs = re.findall(r'[A-Z]{3} \d{4}[A-Z]?', prerequisites)
+        preReqs = [prereq.replace(" ", "") for prereq in preReqs if prereq.replace(" ", "") != code]
 
+        # ADD THIS FOR RANDOMLY GENERATED DATA
+        if preReqs and code not in classesWithPrereqs:
+            classesWithPrereqs.append(code)
+        
+        tree_obj.insert(code, preReqs)
+        map_obj.insert(code, preReqs)
 
+def is_file_empty(file_path):
+    return os.path.getsize(file_path) == 0
 
+def getRandomClass():
+    return random.choice(classesWithPrereqs)
