@@ -33,9 +33,10 @@ class HashMap:
         index = self.hash_function(courseCode)
         bucket = self.buckets[index]
 
-        for old_courseCode, vector in bucket:
-            if old_courseCode == courseCode:
-                return 
+        # check for duplicate
+        for i, (existing_key, _) in enumerate(bucket):
+            if existing_key == courseCode:
+                return
             
         # append new courseCode-value pair
         bucket.append((courseCode, vector))
