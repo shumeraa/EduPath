@@ -45,7 +45,6 @@ def populateUfData(tree_obj, map_obj):
         preReqs = re.findall(r'[A-Z]{3} \d{4}[A-Z]?', prerequisites)
         preReqs = [prereq.replace(" ", "") for prereq in preReqs if prereq.replace(" ", "") != code]
 
-        # ADD THIS FOR RANDOMLY GENERATED DATA
         if preReqs and code not in classesWithPrereqs:
             classesWithPrereqs.append(code)
         

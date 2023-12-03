@@ -20,8 +20,10 @@ def main():
         print("Randomly Generating Data...")
         getData.generateRandomData()
 
+    print("Populating Data... This may take a while (~30 seconds))")
     getData.populateUfData(tree_obj, map_obj)
     getData.populateRandomData(tree_obj, map_obj)
+    print()
 
     firstRun = True
     while True:
