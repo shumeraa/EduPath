@@ -82,28 +82,17 @@ def assign_prerequisites(courses):
     return courses
 
 def update_course_data(limit=100000):
-    with open('all_data.json', 'r') as f:
-        all_courses = json.load(f)
-    existing_course_count = len(all_courses)
-    print(f"Existing courses: {existing_course_count}")
-
-    courses_to_add = max(limit - existing_course_count, 0)
-    print(f"New courses to be added: {courses_to_add}")
-
-    if courses_to_add > 0:
-        # Generate new courses
-        new_courses = create_additional_courses(courses_to_add)
+    all_courses = []
+    new_courses = create_additional_courses()
         
         # Assign prerequisites only to the new courses
-        new_courses_with_prereqs = assign_prerequisites(new_courses)
+    new_courses_with_prereqs = assign_prerequisites(new_courses)
 
         # Combine with existing courses
-        all_courses += new_courses_with_prereqs
-    else:
-        print("Already have enough courses")
+    all_courses.extend(new_courses_with_prereqs)
 
     with open('updated_courses_data.json', 'w') as file:
-        json.dump(new_courses_with_prereqs, file, indent=4)
+        json.dump(all_courses, file, indent=4)
 
     print(f"Total courses after update: {len(all_courses)}")
 
