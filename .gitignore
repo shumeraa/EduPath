@@ -1,1 +1,4 @@
 classMap.pkl
+__pycache__/getData.cpython-310.pyc
+.gitignore
+__pycache__/tree.cpython-310.pyc

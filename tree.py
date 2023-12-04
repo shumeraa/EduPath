@@ -4,8 +4,8 @@ import time
 class classNode:
     def __init__(self):
         self.children = [None] * 26  # A node can have up to 26 children (one for each letter)
-        self.is_end = False  # Flag to indicate the end of a class code
-        self.vector = None  # To store the vector at the end of a class code
+        self.is_end = False  
+        self.vector = None 
 
     def set_vector(self, vector):
         self.vector = vector
@@ -49,7 +49,6 @@ class classTree:
             G = nx.DiGraph()
             visited = set()
 
-        # Avoid circular dependencies
         if course in visited:
             return G
         visited.add(course)
