@@ -34,7 +34,13 @@ class HashMap:
         index = self.hash_function(courseCode)
         bucket = self.buckets[index]
 
-        # append new courseCode-value pair
+        # Check for existing courseCode in the bucket
+        for existing_courseCode, _ in bucket:
+            if existing_courseCode == courseCode:
+                # If course code already exists, do not add and return
+                return
+
+        # Append new courseCode-value pair
         bucket.append((courseCode, vector))
         self.count += 1
 
