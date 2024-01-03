@@ -10,6 +10,10 @@ import os
 
 classesWithPrereqs = []
 
+#Since the class data is already in a json file, we do not need the getUfData and generateRandomData functions
+#They are still included in the file for reference
+
+#This function is only used to get the data from the UF API and write it to a json file
 def getUfData():
     all_data = []
     session = requests.Session()
@@ -34,6 +38,7 @@ def getUfData():
     with open('all_data.json', 'w') as f:
         json.dump(all_data, f)
 
+#This function is used to get the data from the UF API and write it to a json file
 def populateUfData(tree_obj, map_obj):
     with open('all_data.json', 'r') as f:
         all_Courses = json.load(f)

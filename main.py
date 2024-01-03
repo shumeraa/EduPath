@@ -12,14 +12,7 @@ import random
 def main():
     tree_obj = tree.classTree()
     map_obj = map.HashMap()
-
-    if getData.is_file_empty("all_data.json"):
-        print("Getting data from UF API...")
-        getData.getUfData()
-    if getData.is_file_empty("randomlyGeneratedCourses.json"):
-        print("Randomly Generating Data...")
-        getData.generateRandomData()
-
+    
     print("Populating Data... This may take a while (~30 seconds))")
     getData.populateUfData(tree_obj, map_obj)
     getData.populateRandomData(tree_obj, map_obj)
