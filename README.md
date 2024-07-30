@@ -16,7 +16,7 @@ pip install matplotlib
 ```sh
 pip install networkx
 ```
-* requests (only if you want to regenerate the UF classes)
+* requests (if you want to regenerate the UF classes)
 ```sh
 pip install requests
 ```
