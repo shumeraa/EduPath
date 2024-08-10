@@ -2,8 +2,11 @@
 ## About The Project
 EduPath is a tool designed by Aaron Shumer, Joseph Mickler, and Meghana Gontu to assist students at the University of Florida in planning their academic journey. This application simplifies the process of course scheduling by providing a visual prerequisite graph for any selected course.
 
-[![Video Presentation of EduPath](https://youtu.be/mM3GKgFoOfU.jpg)](https://youtu.be/mM3GKgFoOfU)
-
+<div align="center">
+  <a href="https://youtu.be/mM3GKgFoOfU">
+    <img src="https://img.youtube.com/vi/mM3GKgFoOfU/0.jpg" alt="Video Presentation of EduPath" />
+  </a>
+</div>
 
 ### Prerequisites
 
